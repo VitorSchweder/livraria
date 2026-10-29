@@ -1,0 +1,16 @@
+{% extends 'error/_layout.html.twig' %}
+
+{% set messages = {
+    404: ['Página não encontrada', 'O registro ou a página solicitada não existe.', 'bi-search'],
+    405: ['Método não permitido', 'A operação solicitada não é permitida para este endereço.', 'bi-slash-circle'],
+    409: ['Conflito', 'A operação não pôde ser concluída por conflito com os dados existentes.', 'bi-exclamation-triangle'],
+} %}
+{% set message = messages[status_code] ?? ['Erro inesperado', 'Ocorreu um erro ao processar sua solicitação. A equipe foi notificada.', 'bi-bug'] %}
+
+{% block title %}{{ message[0] }}{% endblock %}
+
+{% block content %}
+    <i class="bi {{ message[2] }} display-1 text-primary"></i>
+    <h1 class="h3 mt-3">{{ status_code }} · {{ message[0] }}</h1>
+    <p class="text-body-secondary">{{ message[1] }}</p>
+{% endblock %}

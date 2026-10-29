@@ -1,0 +1,9 @@
+{% extends 'error/_layout.html.twig' %}
+
+{% block title %}Serviço indisponível{% endblock %}
+
+{% block content %}
+    <i class="bi bi-database-x display-1 text-danger"></i>
+    <h1 class="h3 mt-3">Banco de dados indisponível</h1>
+    <p class="text-body-secondary">Não foi possível conectar ao banco de dados. Tente novamente em alguns instantes.</p>
+{% endblock %}

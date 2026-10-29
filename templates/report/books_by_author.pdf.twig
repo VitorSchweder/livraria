@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Livros por autor</title>
+    <style>
+        @page { margin: 90px 36px 60px 36px; }
+        body { font-family: 'DejaVu Sans', sans-serif; font-size: 9pt; color: #212529; }
+        header { position: fixed; top: -70px; left: 0; right: 0; height: 50px; border-bottom: 2px solid #1f3a5f; }
+        header h1 { font-size: 15pt; color: #1f3a5f; margin: 0; }
+        header p { margin: 2px 0 0; color: #6c757d; font-size: 8pt; }
+        footer { position: fixed; bottom: -40px; left: 0; right: 0; height: 20px; font-size: 7.5pt; color: #6c757d; border-top: 1px solid #dee2e6; padding-top: 4px; }
+        footer .page-number:after { content: "Página " counter(page); }
+        .summary { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+        .summary td { background: #eef2f7; padding: 6px 8px; border: 2px solid #fff; }
+        .summary strong { display: block; font-size: 12pt; color: #1f3a5f; }
+        .group { margin-bottom: 14px; page-break-inside: auto; }
+        .group-title { background: #1f3a5f; color: #fff; padding: 5px 8px; font-size: 10.5pt; font-weight: bold; }
+        .group-title span { float: right; font-weight: normal; font-size: 8.5pt; }
+        table.books { width: 100%; border-collapse: collapse; }
+        table.books th { background: #dbe4ef; text-align: left; padding: 4px 6px; font-size: 8pt; border-bottom: 1px solid #adb5bd; }
+        table.books td { padding: 4px 6px; border-bottom: 1px solid #e9ecef; vertical-align: top; }
+        table.books tr:nth-child(even) td { background: #f8f9fa; }
+        .center { text-align: center; }
+        .right { text-align: right; white-space: nowrap; }
+        .empty { padding: 6px 8px; color: #6c757d; font-style: italic; border: 1px solid #e9ecef; }
+        tr { page-break-inside: avoid; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Relatório de livros por autor</h1>
+        <p>Gerado em {{ report.generatedAt|date('d/m/Y \\à\\s H:i') }} · Fonte: view vw_livros_por_autor</p>
+    </header>
+    <footer>
+        <span>Cadastro de Livros</span>
+        <span class="page-number" style="float: right;"></span>
+    </footer>
+
+    <table class="summary">
+        <tr>
+            <td>Autores<strong>{{ report.authorCount }}</strong></td>
+            <td>Livros distintos<strong>{{ report.distinctBooks }}</strong></td>
+            <td>Valor do acervo<strong>{{ report.collectionValue|format_currency('BRL') }}</strong></td>
+        </tr>
+    </table>
+
+    {% for group in report.groups %}
+        <div class="group">
+            <div class="group-title">
+                {{ group.name }}
+                <span>{{ group.bookCount }} livro(s) · {{ group.totalPrice|format_currency('BRL') }}</span>
+            </div>
+            {% if group.books is empty %}
+                <div class="empty">Nenhum livro cadastrado para este autor.</div>
+            {% else %}
+                <table class="books">
+                    <thead>
+                        <tr>
+                            <th style="width: 24%">Título</th>
+                            <th style="width: 16%">Editora</th>
+                            <th class="center" style="width: 7%">Edição</th>
+                            <th class="center" style="width: 7%">Ano</th>
+                            <th style="width: 17%">Assuntos</th>
+                            <th style="width: 17%">Coautores</th>
+                            <th class="right" style="width: 12%">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in group.books %}
+                            <tr>
+                                <td>{{ row.title }}</td>
+                                <td>{{ row.publisher }}</td>
+                                <td class="center">{{ row.edition }}ª</td>
+                                <td class="center">{{ row.publicationYear }}</td>
+                                <td>{{ row.subjects|join(', ') }}</td>
+                                <td>{{ row.coAuthors is empty ? '—' : row.coAuthors|join(', ') }}</td>
+                                <td class="right">{{ row.price|format_currency('BRL') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    {% else %}
+        <p class="empty">Nenhum autor cadastrado.</p>
+    {% endfor %}
+</body>
+</html>

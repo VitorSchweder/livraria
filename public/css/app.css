@@ -1,0 +1,106 @@
+:root {
+    --app-primary: #1f3a5f;
+    --app-primary-dark: #142840;
+    --app-accent: #f4a259;
+    --app-background: #f5f7fa;
+    --bs-primary: #1f3a5f;
+    --bs-primary-rgb: 31, 58, 95;
+    --bs-link-color: #1f3a5f;
+    --bs-link-color-rgb: 31, 58, 95;
+    --bs-link-hover-color: #142840;
+    --bs-body-font-size: 0.95rem;
+}
+
+body {
+    background-color: var(--app-background);
+}
+
+.navbar-app {
+    background-color: var(--app-primary);
+    border-bottom: 3px solid var(--app-accent);
+}
+
+.navbar-app .nav-link.active {
+    color: var(--app-accent) !important;
+    font-weight: 600;
+}
+
+.footer-app {
+    background-color: #fff;
+    border-top: 1px solid #e3e7ee;
+}
+
+.hero {
+    background: linear-gradient(135deg, var(--app-primary) 0%, #2f5d8a 100%);
+    color: #fff;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--app-primary);
+    --bs-btn-border-color: var(--app-primary);
+    --bs-btn-hover-bg: var(--app-primary-dark);
+    --bs-btn-hover-border-color: var(--app-primary-dark);
+    --bs-btn-active-bg: var(--app-primary-dark);
+    --bs-btn-active-border-color: var(--app-primary-dark);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--app-primary);
+    --bs-btn-border-color: var(--app-primary);
+    --bs-btn-hover-bg: var(--app-primary);
+    --bs-btn-hover-border-color: var(--app-primary);
+    --bs-btn-active-bg: var(--app-primary);
+}
+
+.pagination {
+    --bs-pagination-color: var(--app-primary);
+    --bs-pagination-active-bg: var(--app-primary);
+    --bs-pagination-active-border-color: var(--app-primary);
+}
+
+.card {
+    border: 1px solid #e3e7ee;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, .05);
+}
+
+.card-summary .card-icon {
+    font-size: 2rem;
+    color: var(--app-accent);
+}
+
+.card-form {
+    max-width: 960px;
+}
+
+.card-narrow {
+    max-width: 560px;
+}
+
+.card-form .form-control,
+.card-form .form-select {
+    min-height: 2.6rem;
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: .9rem;
+}
+
+.col-id {
+    width: 7rem;
+}
+
+.author-group > .card-header {
+    background-color: var(--app-primary);
+    color: #fff;
+}
+
+.author-group > .card-header .text-body-secondary {
+    color: rgba(255, 255, 255, .8) !important;
+}
+
+.ts-wrapper.multi .ts-control > .item {
+    background: var(--app-primary);
+    color: #fff;
+    border-radius: .25rem;
+}

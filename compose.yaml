@@ -1,0 +1,46 @@
+name: livraria
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    environment:
+      DATABASE_URL: "postgresql://livraria:livraria@db:5432/livraria?serverVersion=17&charset=utf8"
+      DB_HOST: db
+      POSTGRES_USER: livraria
+    volumes:
+      - ./:/var/www/app
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    volumes:
+      - ./public:/var/www/app/public:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: livraria
+      POSTGRES_USER: livraria
+      POSTGRES_PASSWORD: livraria
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U livraria -d livraria"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  db-data:

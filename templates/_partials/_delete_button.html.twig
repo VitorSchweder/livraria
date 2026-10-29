@@ -1,0 +1,6 @@
+<form method="post" action="{{ action }}" class="d-inline" data-confirm="{{ confirmation }}">
+    <input type="hidden" name="_token" value="{{ csrf_token(token) }}">
+    <button type="submit" class="btn btn-sm btn-outline-danger" title="Excluir">
+        <i class="bi bi-trash"></i><span class="visually-hidden">Excluir</span>
+    </button>
+</form>

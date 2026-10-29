@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('book_index') }}">Livros</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ book.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="card card-form">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h1 class="h4 mb-0">{{ book.title }}</h1>
+            <span class="badge text-bg-success fs-6">{{ book.price|format_currency('BRL') }}</span>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Código</dt>
+                <dd class="col-sm-9">{{ book.id }}</dd>
+                <dt class="col-sm-3">Editora</dt>
+                <dd class="col-sm-9">{{ book.publisher }}</dd>
+                <dt class="col-sm-3">Edição</dt>
+                <dd class="col-sm-9">{{ book.edition }}ª edição</dd>
+                <dt class="col-sm-3">Ano de publicação</dt>
+                <dd class="col-sm-9">{{ book.publicationYear }}</dd>
+                <dt class="col-sm-3">Autores</dt>
+                <dd class="col-sm-9">
+                    {% for author in book.authors %}
+                        <span class="badge rounded-pill text-bg-primary">{{ author.name }}</span>
+                    {% endfor %}
+                </dd>
+                <dt class="col-sm-3">Assuntos</dt>
+                <dd class="col-sm-9 mb-0">
+                    {% for subject in book.subjects %}
+                        <span class="badge rounded-pill text-bg-secondary">{{ subject.description }}</span>
+                    {% endfor %}
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer d-flex gap-2">
+            <a href="{{ path('book_edit', {id: book.id}) }}" class="btn btn-primary"><i class="bi bi-pencil"></i> Editar</a>
+            <a href="{{ path('book_index') }}" class="btn btn-outline-secondary">Voltar</a>
+        </div>
+    </div>
+{% endblock %}

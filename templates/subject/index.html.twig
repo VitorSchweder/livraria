@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Assuntos{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0"><i class="bi bi-tags me-2"></i>Assuntos</h1>
+        <a href="{{ path('subject_new') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo assunto</a>
+    </div>
+
+    {% include '_partials/_search.html.twig' with {placeholder: 'Buscar por descrição'} %}
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="col-id">Código</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col" class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in page.items %}
+                        <tr>
+                            <td>{{ subject.id }}</td>
+                            <td>{{ subject.description }}</td>
+                            <td class="text-end text-nowrap">
+                                <a href="{{ path('subject_edit', {id: subject.id}) }}" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i><span class="visually-hidden">Editar</span></a>
+                                {% include '_partials/_delete_button.html.twig' with {
+                                    action: path('subject_delete', {id: subject.id}),
+                                    token: 'delete_subject_' ~ subject.id,
+                                    confirmation: 'Excluir o assunto "' ~ subject.description ~ '"?',
+                                } %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="3" class="text-center text-body-secondary py-4">Nenhum assunto encontrado.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <small class="text-body-secondary">{{ page.total }} assunto(s)</small>
+            {% include '_partials/_pagination.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

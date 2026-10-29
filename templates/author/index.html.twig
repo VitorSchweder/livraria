@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Autores{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0"><i class="bi bi-person-lines-fill me-2"></i>Autores</h1>
+        <a href="{{ path('author_new') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo autor</a>
+    </div>
+
+    {% include '_partials/_search.html.twig' with {placeholder: 'Buscar por nome'} %}
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="col-id">Código</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col" class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for author in page.items %}
+                        <tr>
+                            <td>{{ author.id }}</td>
+                            <td>{{ author.name }}</td>
+                            <td class="text-end text-nowrap">
+                                <a href="{{ path('report_books_by_author', {author: author.id}) }}" class="btn btn-sm btn-outline-secondary" title="Livros do autor"><i class="bi bi-journal-text"></i><span class="visually-hidden">Livros do autor</span></a>
+                                <a href="{{ path('author_edit', {id: author.id}) }}" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i><span class="visually-hidden">Editar</span></a>
+                                {% include '_partials/_delete_button.html.twig' with {
+                                    action: path('author_delete', {id: author.id}),
+                                    token: 'delete_author_' ~ author.id,
+                                    confirmation: 'Excluir o autor "' ~ author.name ~ '"?',
+                                } %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="3" class="text-center text-body-secondary py-4">Nenhum autor encontrado.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <small class="text-body-secondary">{{ page.total }} autor(es)</small>
+            {% include '_partials/_pagination.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

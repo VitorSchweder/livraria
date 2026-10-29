@@ -1,0 +1,19 @@
+{% if page.totalPages > 1 %}
+    {% set route = app.request.attributes.get('_route') %}
+    {% set params = app.request.query.all %}
+    <nav aria-label="Paginação">
+        <ul class="pagination justify-content-center mb-0">
+            <li class="page-item {{ not page.hasPreviousPage ? 'disabled' }}">
+                <a class="page-link" href="{{ path(route, params|merge({page: page.currentPage - 1})) }}" aria-label="Anterior">&laquo;</a>
+            </li>
+            {% for number in 1..page.totalPages %}
+                <li class="page-item {{ number == page.currentPage ? 'active' }}">
+                    <a class="page-link" href="{{ path(route, params|merge({page: number})) }}">{{ number }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item {{ not page.hasNextPage ? 'disabled' }}">
+                <a class="page-link" href="{{ path(route, params|merge({page: page.currentPage + 1})) }}" aria-label="Próxima">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
+{% endif %}

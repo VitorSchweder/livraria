@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% set heading = subject.id ? 'Editar assunto' : 'Novo assunto' %}
+
+{% block title %}{{ heading }}{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('subject_index') }}">Assuntos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ heading }}</li>
+        </ol>
+    </nav>
+
+    <div class="card card-form card-narrow">
+        <div class="card-header"><h1 class="h4 mb-0">{{ heading }}</h1></div>
+        <div class="card-body">
+            {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                {{ form_errors(form) }}
+                {{ form_row(form.description) }}
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Salvar</button>
+                    <a href="{{ path('subject_index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

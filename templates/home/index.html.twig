@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Início{% endblock %}
+
+{% block body %}
+    <div class="p-4 p-md-5 mb-4 rounded-3 hero">
+        <h1 class="display-6 fw-semibold">Cadastro de Livros</h1>
+        <p class="lead mb-0">Gerencie livros, autores e assuntos e gere o relatório de livros agrupados por autor.</p>
+    </div>
+
+    <div class="row g-4">
+        {% for card in [
+            {label: 'Livros', key: 'books', total: bookCount, icon: 'journal-bookmark', route: 'book_index', newRoute: 'book_new'},
+            {label: 'Autores', key: 'authors', total: authorCount, icon: 'person-lines-fill', route: 'author_index', newRoute: 'author_new'},
+            {label: 'Assuntos', key: 'subjects', total: subjectCount, icon: 'tags', route: 'subject_index', newRoute: 'subject_new'},
+        ] %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-summary h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h2 class="h6 text-body-secondary text-uppercase mb-1">{{ card.label }}</h2>
+                                <p class="display-6 fw-bold mb-0" data-total="{{ card.key }}">{{ card.total }}</p>
+                            </div>
+                            <i class="bi bi-{{ card.icon }} card-icon"></i>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent d-flex gap-2">
+                        <a href="{{ path(card.route) }}" class="btn btn-sm btn-outline-primary">Listar</a>
+                        <a href="{{ path(card.newRoute) }}" class="btn btn-sm btn-primary"><i class="bi bi-plus-lg"></i> Novo</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-md-6 col-lg-3">
+            <div class="card card-summary h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h2 class="h6 text-body-secondary text-uppercase mb-1">Relatório</h2>
+                            <p class="mb-0">Livros agrupados por autor</p>
+                        </div>
+                        <i class="bi bi-file-earmark-bar-graph card-icon"></i>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent d-flex gap-2">
+                    <a href="{{ path('report_books_by_author') }}" class="btn btn-sm btn-outline-primary">Visualizar</a>
+                    <a href="{{ path('report_books_by_author_pdf') }}" class="btn btn-sm btn-primary" target="_blank"><i class="bi bi-filetype-pdf"></i> PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
